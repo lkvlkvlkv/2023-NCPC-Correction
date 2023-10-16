@@ -2,32 +2,32 @@
 using namespace std;
 #define endl "\n"
 
-vector<int> now;
 vector<vector<int>> dp[13];
 
-void walk(int target, int i, vector<int> &permutation) {
+void walk(int target, int i, vector<int> &permutation, vector<int> &solution) {
     if (i == permutation.size()) {
-        dp[target].push_back(now);
+        dp[target].push_back(solution);
         return;
     }
-    now.push_back(i + 1);
+    solution.push_back(i + 1);
     for (auto &x : dp[permutation[i]]) {
         for (auto &y : x) {
-            now.push_back(y);
+            solution.push_back(y);
         }
-        now.push_back(0);
-        walk(target, i + 1, permutation);
+        solution.push_back(0);
+        walk(target, i + 1, permutation, solution);
         for (auto &y : x) {
-            now.pop_back();
+            solution.pop_back();
         }
-        now.pop_back();
+        solution.pop_back();
     }
-    now.pop_back();
+    solution.pop_back();
 }
 
 void backtracking(int target, int n, vector<int> &permutation) {
     if (n == 0) {
-        walk(target, 0, permutation);
+        vector<int> solution;
+        walk(target, 0, permutation, solution);
         return;
     }
     for (int i = 1; i <= n; i++) {
